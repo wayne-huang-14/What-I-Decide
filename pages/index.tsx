@@ -1,5 +1,33 @@
-import Button from '@material-ui/core/Button';
+import React, { useState, useEffect } from 'react';
+import { useUnsplashApi } from '@/hooks/index';
+import { Typography } from '@material-ui/core';
 
 export default function Home() {
-  return <Button variant="contained">Hello World</Button>;
+  const { isLoading, error, sendRequest, clearError } = useUnsplashApi();
+  const [photo, setPhoto] = useState();
+
+  useEffect(() => {
+    const fetchPhoto = async () => {
+      try {
+        const responseData = await sendRequest({ photoId: 'ESEnXckWlLY' });
+        setPhoto(responseData);
+        console.log(`responseData`, responseData);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchPhoto();
+  }, [sendRequest]);
+
+  if (isLoading) {
+    return <Typography>Loading...</Typography>;
+  }
+
+  return (
+    <>
+      {error && <Typography>{error}</Typography>}
+      {photo && <img src={photo.urls?.full} />}
+    </>
+  );
 }
