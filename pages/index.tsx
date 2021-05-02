@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 import { useUnsplashApi } from '@/hooks/index';
 
@@ -105,10 +106,12 @@ export default function Home() {
           <ImageList variant="masonry" cols={4} gap={10}>
             {photos.map(photo => (
               <ImageListItem key={photo.id}>
-                <img
+                <Image
                   src={photo.urls.regular}
                   alt={photo.alt_description}
-                  loading="lazy"
+                  layout="intrinsic"
+                  width={photo.width}
+                  height={photo.height}
                 />
               </ImageListItem>
             ))}
