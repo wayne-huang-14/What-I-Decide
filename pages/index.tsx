@@ -47,10 +47,17 @@ export default function Home() {
     }
   }, [debouncedTerm]);
 
+  const getRandomTerm = () => {
+    const terms = ['people', 'books', 'landscape', 'nature'];
+    const randomIndex = Math.floor(Math.random() * 4);
+    return terms[randomIndex];
+  };
+
   const handleOnClick = async () => {
     try {
+      const randomTerm = getRandomTerm();
       const responseData = await sendRequest({
-        query: 'bikes',
+        query: randomTerm,
         perPage: 20,
         color: 'white',
         orientation: 'portrait'
