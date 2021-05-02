@@ -78,9 +78,21 @@ export default function Home() {
 
   return (
     <Container maxWidth="lg">
+      <Container sx={{ mt: '5rem', textAlign: 'center' }}>
+        <Image
+          src="/logo.svg"
+          alt="What I Decide"
+          layout="intrinsic"
+          width={150}
+          height={83}
+        />
+        <Typography align="center">
+          If you must choose, choose wisely
+        </Typography>
+      </Container>
       <Container
         sx={{
-          height: '30vh',
+          height: '20vh',
           display: 'flex',
           justifyContent: 'space-evenly',
           alignItems: 'center'

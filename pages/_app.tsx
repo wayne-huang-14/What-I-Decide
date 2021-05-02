@@ -6,7 +6,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <Layout>
       <Head>
-        <title>Inspired Ideas</title>
+        <title>What I Decide</title>
       </Head>
       <Component {...pageProps} />
     </Layout>
