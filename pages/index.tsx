@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { useUnsplashApi } from '@/hooks/index';
 
@@ -14,6 +14,38 @@ import {
 export default function Home() {
   const { isLoading, error, sendRequest, clearError } = useUnsplashApi();
   const [photos, setPhotos] = useState([]);
+  const [term, setTerm] = useState('');
+  const [debouncedTerm, setDebouncedTerm] = useState(term);
+
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setDebouncedTerm(term);
+    }, 1000);
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [term]);
+
+  useEffect(() => {
+    const search = async () => {
+      try {
+        const responseData = await sendRequest({
+          query: debouncedTerm,
+          perPage: 20,
+          orientation: 'portrait'
+        });
+
+        const { total, results } = responseData;
+        setPhotos(results);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    if (debouncedTerm) {
+      search();
+    }
+  }, [debouncedTerm]);
 
   const handleOnClick = async () => {
     try {
@@ -32,6 +64,10 @@ export default function Home() {
     }
   };
 
+  const handleOnSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTerm(e.target.value);
+  };
+
   return (
     <Container maxWidth="lg">
       <Container
@@ -45,7 +81,13 @@ export default function Home() {
         <Button variant="outlined" onClick={handleOnClick}>
           Inspire Me
         </Button>
-        <TextField id="search" label="I want to see..." size="small" />
+        <TextField
+          id="search"
+          label="I want to see..."
+          size="small"
+          value={term}
+          onChange={handleOnSearch}
+        />
       </Container>
 
       {isLoading && <Typography>Loading.....</Typography>}
