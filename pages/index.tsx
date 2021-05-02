@@ -9,7 +9,8 @@ import {
   ImageList,
   ImageListItem,
   Button,
-  TextField
+  TextField,
+  LinearProgress
 } from '@material-ui/core';
 
 export default function Home() {
@@ -44,6 +45,7 @@ export default function Home() {
     };
 
     if (debouncedTerm) {
+      setPhotos([]);
       search();
     }
   }, [debouncedTerm]);
@@ -110,7 +112,7 @@ export default function Home() {
         />
       </Container>
 
-      {isLoading && <Typography>Loading.....</Typography>}
+      {isLoading && <LinearProgress color="secondary" />}
       {error && <Typography>{error}</Typography>}
 
       {photos.length > 0 && (
@@ -129,6 +131,12 @@ export default function Home() {
             ))}
           </ImageList>
         </Container>
+      )}
+
+      {!isLoading && photos.length == 0 && (
+        <Typography color="secondary" align="center">
+          Sorry, no photos were found for this search term. Please try again.
+        </Typography>
       )}
     </Container>
   );
