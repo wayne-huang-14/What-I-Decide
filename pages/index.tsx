@@ -18,6 +18,7 @@ export default function Home() {
   const [photos, setPhotos] = useState([]);
   const [term, setTerm] = useState('');
   const [debouncedTerm, setDebouncedTerm] = useState(term);
+  const [statusText, setStatusText] = useState('Please select an action.');
 
   useEffect(() => {
     const timerId = setTimeout(() => {
@@ -38,7 +39,15 @@ export default function Home() {
         });
 
         const { total, results } = responseData;
-        setPhotos(results);
+
+        if (total === 0) {
+          setStatusText(
+            'Sorry, no photos were found for this search term. Please try again.'
+          );
+          setPhotos([]);
+        } else {
+          setPhotos(results);
+        }
       } catch (err) {
         console.log(err);
       }
@@ -133,9 +142,9 @@ export default function Home() {
         </Container>
       )}
 
-      {!isLoading && photos.length == 0 && (
+      {!isLoading && photos.length === 0 && (
         <Typography color="secondary" align="center">
-          Sorry, no photos were found for this search term. Please try again.
+          {statusText}
         </Typography>
       )}
     </Container>
