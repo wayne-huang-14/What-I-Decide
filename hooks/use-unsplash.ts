@@ -15,7 +15,10 @@ export const useUnsplashApi = () => {
     const signal = controller.signal;
 
     try {
-      const result = await unsplash.photos.get(params, { headers, signal });
+      const result = await unsplash.search.getPhotos(params, {
+        headers,
+        signal
+      });
 
       if (result.errors) {
         throw new Error(result.errors[0]);
