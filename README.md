@@ -1,7 +1,7 @@
 This is a demo app using the Unsplash API utilizing the unsplash-js API wrapper.
 It allows users to retrieve images from Unsplash based on the app's random photo generation or a search term given by the user.
 
-## Demo
+## Production App
 
 [What I Decide](https://what-i-decide.vercel.app/)
 
